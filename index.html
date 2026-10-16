@@ -11,7 +11,7 @@
   <meta property="og:title" content="Mo về quê · Đặc sản xứ Thanh">
   <meta property="og:description" content="Nem chua, bánh lá răng bừa Thanh Hóa, đặt theo từng đợt Mo về quê. Giao tận nơi nội thành Hà Nội, miễn phí.">
   <meta property="og:url" content="https://bonjourney1011.github.io/mo-ve-que/">
-  <meta property="og:image" content="https://bonjourney1011.github.io/mo-ve-que/assets/images/og-cover.png">
+  <meta property="og:image" content="https://bonjourney1011.github.io/mo-ve-que/assets/images/og-cover.jpg">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,17 +26,24 @@
 
   <header class="hero" data-hero>
     <div class="wrap hero__inner">
-      <p class="hand hero__kicker">Mỗi lần về quê, Mo xách lên Hà Nội…</p>
-      <h1 class="hero__title">Mo về quê</h1>
-      <p class="hero__lede">Đặc sản xứ Thanh, chỉ những món Mo ăn rồi thấy <em>ngonnn</em> thật sự.</p>
-      <div class="stamp" data-batch-stamp data-state="loading">
-        <span class="stamp__label" data-batch-stamp-label>Đang xem đợt…</span>
-      </div>
-      <p class="hero__status" data-batch-line>&nbsp;</p>
-      <p class="hero__countdown" data-countdown hidden></p>
-      <div class="hero__actions">
-        <a class="btn btn--nem" href="#dat-hang" data-cta-order hidden>Đặt ngay</a>
-        <a class="btn btn--ghost" href="#mon">Xem món</a>
+      <h1 class="hero__brand">
+        <img class="hero__logo" src="assets/images/logo-badge-480.webp"
+          srcset="assets/images/logo-badge-320.webp 320w, assets/images/logo-badge-480.webp 480w"
+          sizes="(min-width: 760px) 300px, 200px" width="480" height="480" fetchpriority="high"
+          alt="Mo về quê · Đặc sản xứ Thanh">
+      </h1>
+      <div class="hero__text">
+        <p class="hand hero__kicker">Mỗi lần về quê, Mo xách lên Hà Nội…</p>
+        <p class="hero__lede">Chỉ những món Mo ăn rồi thấy <em>ngonnn</em> thật sự.</p>
+        <div class="stamp" data-batch-stamp data-state="loading">
+          <span class="stamp__label" data-batch-stamp-label>Đang xem đợt…</span>
+        </div>
+        <p class="hero__status" data-batch-line>&nbsp;</p>
+        <p class="hero__countdown" data-countdown hidden></p>
+        <div class="hero__actions">
+          <a class="btn btn--nem" href="#dat-hang" data-cta-order hidden>Đặt ngay</a>
+          <a class="btn btn--ghost" href="#mon">Xem món</a>
+        </div>
       </div>
     </div>
   </header>
@@ -159,7 +166,7 @@
       <h2 id="faq-title" class="section__title">Hỏi nhanh</h2>
       <div class="faq">
         <details><summary>Nem chua để được bao lâu?</summary>
-          <p>Nem đến tay là vừa chín tới. Để ngăn mát, ăn ngon nhất trong 5–7 ngày; để ngoài trời nóng nem sẽ chua nhanh hơn.</p></details>
+          <p>Để ngoài 1–2 ngày cho nem chín hẳn rồi mới cất ngăn mát; ngon nhất trong 5–7 ngày.</p></details>
         <details><summary>Bà bầu, trẻ nhỏ ăn nem chua được không?</summary>
           <p>Nem chua là thịt lên men, chưa qua nấu chín. Bà bầu, trẻ nhỏ và người miễn dịch yếu nên nướng hoặc chiên chín trước khi ăn.</p></details>
         <details><summary>Mình ở ngoại thành hoặc tỉnh khác thì sao?</summary>
@@ -181,6 +188,7 @@
         <a class="btn btn--ghost btn--small" data-contact="zalo-group" target="_blank" rel="noopener">Nhóm Zalo</a>
         <button type="button" class="btn btn--ghost btn--small" data-contact="zalo-qr">QR Zalo</button>
       </div>
+      <p class="hand site-footer__wish">Chúc bạn thưởng thức ngon miệng!</p>
       <p class="site-footer__made">Trang nhỏ do <a href="https://bonjourney1011.github.io/" target="_blank" rel="noopener">Mo Thuan</a> tự làm.</p>
     </div>
   </footer>

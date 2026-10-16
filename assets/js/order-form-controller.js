@@ -37,7 +37,8 @@ function stepperRow(product, quantities, onChange) {
   return el('div', { class: `order-item${limit <= 0 ? ' order-item--out' : ''}` },
     el('div', { class: 'order-item__info' },
       el('span', { class: 'order-item__name', text: product.name }),
-      el('span', { class: 'order-item__meta', text: `${formatPriceShort(product.price)}/${product.unit} · ${hint}` })),
+      el('span', { class: 'order-item__price', text: `${formatPriceShort(product.price)}/${product.unit}` }),
+      el('span', { class: 'order-item__meta', text: hint })),
     el('div', { class: 'stepper', role: 'group', 'aria-label': `Số ${product.unit} ${product.name}` }, minus, output, plus));
 }
 

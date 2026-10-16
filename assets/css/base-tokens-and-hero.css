@@ -73,27 +73,20 @@ a { color: var(--leaf-deep); text-underline-offset: 3px; }
 .btn--block { width: 100%; }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; padding: 104px 0 40px; border-bottom: 1px solid var(--rule); }
-.hero::before {
-  /* A banana leaf laid across the top corner, kept clear of the text on phones */
-  content: ''; position: absolute; width: 340px; height: 130px; right: -160px; top: -52px;
-  border-radius: 100% 0; transform: rotate(-28deg);
-  background:
-    repeating-linear-gradient(100deg, transparent 0 13px, rgba(255, 255, 255, .16) 13px 15px),
-    linear-gradient(160deg, #5c8a3c, var(--leaf-deep));
-  opacity: .9; z-index: 0;
+/* Hero: the round logo badge is the page title; text follows (beside it from 760px) */
+.hero { padding: 32px 0 40px; border-bottom: 1px solid var(--rule); }
+.hero__inner { display: grid; gap: 18px; align-items: center; }
+.hero__brand { margin: 0; line-height: 0; }
+.hero__logo {
+  width: 200px; height: auto; max-width: 100%; border-radius: 50%;
+  /* Redraws the logo's dark green ring, lost when the square corners were cut away */
+  box-shadow: 0 0 0 4px var(--leaf-deep), 0 14px 30px -14px rgba(43, 33, 24, .55);
+  animation: logo-in .6s var(--ease) both;
 }
-.hero::after {
-  content: ''; position: absolute; width: 340px; height: 3px; right: -160px; top: 12px;
-  background: rgba(255, 255, 255, .35); transform: rotate(-28deg); z-index: 0;
-}
-.hero__inner { position: relative; z-index: 1; }
-.hero__kicker { margin-bottom: 4px; }
-.hero__title {
-  font: 800 clamp(3.2rem, 15vw, 6rem)/.95 var(--font-display);
-  margin: 0; letter-spacing: -.02em; color: var(--ink);
-}
-.hero__lede { font-size: 1.12rem; max-width: 30ch; margin: 14px 0 22px; color: var(--ink-soft); }
+@keyframes logo-in { from { transform: rotate(-8deg) scale(.92); opacity: 0; } to { transform: none; opacity: 1; } }
+.hero__text { min-width: 0; }
+.hero__kicker { margin: 0; }
+.hero__lede { font-size: 1.12rem; max-width: 30ch; margin: 2px 0 22px; color: var(--ink-soft); }
 .hero__lede em { font-family: var(--font-hand); font-style: normal; color: var(--nem); font-size: 1.3em; }
 .hero__status { margin: 14px 0 0; font-weight: 500; max-width: 46ch; }
 .hero__countdown { margin: 4px 0 0; font-weight: 600; color: var(--nem-deep); }
@@ -113,9 +106,9 @@ a { color: var(--leaf-deep); text-underline-offset: 3px; }
 @keyframes stamp-in { from { transform: rotate(-12deg) scale(1.4); opacity: 0; } to { transform: rotate(-3deg) scale(1); opacity: 1; } }
 
 @media (min-width: 760px) {
-  .hero { padding: 80px 0 64px; }
-  .hero::before { width: 720px; height: 280px; right: -160px; top: 40px; }
-  .hero::after { width: 720px; right: -160px; top: 178px; }
+  .hero { padding: 64px 0 64px; }
+  .hero__inner { grid-template-columns: auto minmax(0, 1fr); gap: 48px; }
+  .hero__logo { width: 300px; }
   .hero__actions .btn { flex: 0 0 auto; }
   .section { padding-block: 80px 8px; }
 }

@@ -4,7 +4,9 @@
   border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper-raised);
   padding: 16px 16px 6px; margin: 0 0 16px; min-width: 0;
 }
-.form-block legend { font: 800 1.2rem/1 var(--font-display); padding: 0 6px; margin-left: -6px; }
+/* Floated legend sits inside the box as a plain heading instead of cutting into the border */
+.form-block legend { float: left; width: 100%; padding: 0; margin: 0 0 12px; font: 800 1.2rem/1.2 var(--font-display); }
+.form-block legend + * { clear: both; }
 .form-block--refund { background: #f7f1e1; border-style: dashed; }
 .form-hint { margin: 4px 0 12px; font-size: .92rem; color: var(--ink-soft); }
 
@@ -26,15 +28,18 @@
 
 /* Quantity steppers */
 .order-items { display: grid; gap: 4px; margin-bottom: 10px; }
+/* Same grid on every row: text column + fixed stepper column, so rows line up */
 .order-item {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 10px 0; border-bottom: 1px dashed var(--rule);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px dashed var(--rule);
 }
+.order-item:first-child { padding-top: 0; }
 .order-item:last-child { border-bottom: 0; }
 .order-item--out { opacity: .55; }
-.order-item__info { display: grid; min-width: 0; }
+.order-item__info { display: grid; gap: 2px; min-width: 0; }
 .order-item__name { font: 800 1.15rem/1.2 var(--font-display); }
 .order-item__meta { font-size: .88rem; color: var(--ink-soft); }
+.order-item__price { font-weight: 600; color: var(--nem); }
 .stepper { display: flex; align-items: center; gap: 4px; flex: none; }
 .stepper__btn {
   width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--leaf);
@@ -97,6 +102,11 @@
 .success__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
 .success__note, .success__refund { margin: 0 0 12px; color: var(--ink-soft); }
 .success__refund { font-size: .92rem; padding-top: 12px; border-top: 1px dashed var(--rule); }
+
+/* The `font` shorthand resets font-variant-numeric, so re-apply lining figures wherever the
+   display face shows digits (this file loads last). */
+.card__price strong, .stepper__qty, .order-summary__total strong, .success__code,
+.success__total strong, .steps li::before { font-variant-numeric: lining-nums tabular-nums; }
 
 @media (min-width: 560px) {
   .field-row { grid-template-columns: 1fr 1fr; }

@@ -100,7 +100,8 @@
 .site-footer a { color: #fff; }
 .site-footer .btn--ghost { color: #fff; border-color: rgba(255, 255, 255, .7); }
 .site-footer .btn--ghost:hover { background: rgba(255, 255, 255, .1); }
-.site-footer__made { font-size: .9rem; opacity: .85; margin-top: 18px !important; }
+.site-footer__wish { color: #f3f6e9; font-size: 1.4rem; margin-top: 18px !important; }
+.site-footer__made { font-size: .9rem; opacity: .85; }
 .contact-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
 .qr-dialog { border: 0; border-radius: var(--radius); padding: 24px; text-align: center; background: var(--paper-raised); max-width: calc(100vw - 32px); }
 .qr-dialog::backdrop { background: rgba(43, 33, 24, .55); }

@@ -138,7 +138,7 @@ Mỗi lần sửa file trên trang (`site-config.js`, ảnh, feedback), push l�
   Nhớ che tên hoặc ảnh đại diện của khách nếu họ chưa đồng ý.
 - **Mở bán bánh bột lọc:** ở tab Products, điền `price` và tích `available`. Nội dung mô tả đã viết sẵn.
 - **Thêm món mới:** thêm một dòng ở Products, và một mục cùng `sku` trong `products-content.json`.
-- **Ảnh xem trước khi share link:** `assets/images/og-cover.png` (1200×630) có ghi giá. Đổi giá thì nên thay ảnh này, hoặc dùng ảnh thật của món.
+- **Ảnh xem trước khi share link:** `assets/images/og-cover.jpg` (1200×630) có ghi giá. Đổi giá thì nên thay ảnh này, hoặc dùng ảnh thật của món.
 - Có thể làm tất cả qua giao diện web của GitHub: **Add file → Upload files**.
 
 ### Checklist chụp ảnh chuyến về

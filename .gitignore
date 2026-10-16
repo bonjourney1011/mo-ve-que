@@ -2,3 +2,4 @@ _private/
 node_modules/
 .DS_Store
 Thumbs.db
+assets/images/logo.png
