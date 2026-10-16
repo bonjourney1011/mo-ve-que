@@ -1,0 +1,124 @@
+/* Mo về quê: giấy dó cream, banana-leaf green, nem red, lạt (twine) gold. */
+:root {
+  color-scheme: light;
+  --paper: #f4ecdc;
+  --paper-raised: #fbf6ea;
+  --paper-deep: #e9dcc2;
+  --ink: #2b2118;
+  --ink-soft: #5d4e3e;
+  --ink-faint: #8a7a66;
+  --rule: #dccdb0;
+  --leaf: #3d6a2a;
+  --leaf-deep: #2a4c1c;
+  --leaf-light: #dfe8c8;
+  --nem: #bf3b26;
+  --nem-deep: #9a2c1a;
+  --nem-soft: #f5d9cd;
+  --twine: #b8863a;
+  --radius: 18px;
+  --shadow: 0 1px 0 rgba(43, 33, 24, .06), 0 12px 30px -18px rgba(43, 33, 24, .45);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --font-display: 'Alegreya', 'Times New Roman', serif;
+  --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-hand: 'Patrick Hand', 'Comic Sans MS', cursive;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font: 400 16px/1.6 var(--font-body);
+  /* Alegreya defaults to old-style figures; prices must read clearly */
+  font-variant-numeric: lining-nums;
+  color: var(--ink);
+  background-color: var(--paper);
+  /* Fibre grain of giấy dó */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--leaf-deep); text-underline-offset: 3px; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--twine); outline-offset: 2px; }
+
+.wrap { width: 100%; max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+.hand { font-family: var(--font-hand); font-size: 1.25rem; color: var(--leaf); margin: 0; }
+.section { padding-block: 56px 8px; }
+.section__title {
+  font: 800 clamp(1.7rem, 5vw, 2.4rem)/1.15 var(--font-display);
+  margin: 0 0 20px;
+  letter-spacing: -.01em;
+}
+
+.skip-link { position: absolute; left: -999px; top: 8px; }
+.skip-link:focus { left: 16px; z-index: 10; background: var(--paper-raised); padding: 8px 12px; border-radius: 8px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 12px 22px;
+  border-radius: 999px; border: 2px solid transparent;
+  font: 600 1rem/1.2 var(--font-body); text-decoration: none; cursor: pointer;
+  transition: transform .25s var(--ease), background-color .2s, box-shadow .25s var(--ease);
+}
+.btn:active { transform: translateY(1px) scale(.99); }
+.btn:disabled { cursor: not-allowed; opacity: .55; }
+.btn--nem { background: var(--nem); color: #fff8f0; box-shadow: 0 8px 18px -10px var(--nem-deep); }
+.btn--nem:hover:not(:disabled) { background: var(--nem-deep); }
+.btn--leaf { background: var(--leaf); color: #f6f9ee; }
+.btn--leaf:hover { background: var(--leaf-deep); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn--ghost:hover { background: var(--paper-deep); }
+.btn--small { min-height: 40px; padding: 8px 16px; font-size: .9rem; }
+.btn--block { width: 100%; }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; padding: 104px 0 40px; border-bottom: 1px solid var(--rule); }
+.hero::before {
+  /* A banana leaf laid across the top corner, kept clear of the text on phones */
+  content: ''; position: absolute; width: 340px; height: 130px; right: -160px; top: -52px;
+  border-radius: 100% 0; transform: rotate(-28deg);
+  background:
+    repeating-linear-gradient(100deg, transparent 0 13px, rgba(255, 255, 255, .16) 13px 15px),
+    linear-gradient(160deg, #5c8a3c, var(--leaf-deep));
+  opacity: .9; z-index: 0;
+}
+.hero::after {
+  content: ''; position: absolute; width: 340px; height: 3px; right: -160px; top: 12px;
+  background: rgba(255, 255, 255, .35); transform: rotate(-28deg); z-index: 0;
+}
+.hero__inner { position: relative; z-index: 1; }
+.hero__kicker { margin-bottom: 4px; }
+.hero__title {
+  font: 800 clamp(3.2rem, 15vw, 6rem)/.95 var(--font-display);
+  margin: 0; letter-spacing: -.02em; color: var(--ink);
+}
+.hero__lede { font-size: 1.12rem; max-width: 30ch; margin: 14px 0 22px; color: var(--ink-soft); }
+.hero__lede em { font-family: var(--font-hand); font-style: normal; color: var(--nem); font-size: 1.3em; }
+.hero__status { margin: 14px 0 0; font-weight: 500; max-width: 46ch; }
+.hero__countdown { margin: 4px 0 0; font-weight: 600; color: var(--nem-deep); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.hero__actions .btn { flex: 1 1 140px; }
+
+/* Market stamp showing the batch state */
+.stamp {
+  display: inline-block; padding: 8px 18px; transform: rotate(-3deg);
+  border: 2.5px solid currentColor; border-radius: 10px;
+  outline: 1.5px dashed currentColor; outline-offset: 3px;
+  font: 600 .9rem/1.2 var(--font-body); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-faint); background: rgba(251, 246, 234, .7);
+}
+.stamp[data-state='open'] { color: var(--nem); animation: stamp-in .5s var(--ease) both; }
+.stamp[data-state='closed'] { color: var(--ink-soft); }
+@keyframes stamp-in { from { transform: rotate(-12deg) scale(1.4); opacity: 0; } to { transform: rotate(-3deg) scale(1); opacity: 1; } }
+
+@media (min-width: 760px) {
+  .hero { padding: 80px 0 64px; }
+  .hero::before { width: 720px; height: 280px; right: -160px; top: 40px; }
+  .hero::after { width: 720px; right: -160px; top: 178px; }
+  .hero__actions .btn { flex: 0 0 auto; }
+  .section { padding-block: 80px 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

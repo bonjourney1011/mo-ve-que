@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mo về quê · Đặc sản xứ Thanh</title>
+  <meta name="description" content="Nem chua, bánh lá răng bừa Thanh Hóa Mo mang lên Hà Nội mỗi lần về quê. Chỉ bán món Mo ăn thấy ngon. Giao tận nơi nội thành Hà Nội, miễn phí.">
+  <meta name="theme-color" content="#f4ecdc">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:title" content="Mo về quê · Đặc sản xứ Thanh">
+  <meta property="og:description" content="Nem chua, bánh lá răng bừa Thanh Hóa, đặt theo từng đợt Mo về quê. Giao tận nơi nội thành Hà Nội, miễn phí.">
+  <meta property="og:url" content="https://bonjourney1011.github.io/mo-ve-que/">
+  <meta property="og:image" content="https://bonjourney1011.github.io/mo-ve-que/assets/images/og-cover.png">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,600;0,800;1,600&family=Be+Vietnam+Pro:wght@400;500;600&family=Patrick+Hand&display=swap&subset=vietnamese">
+  <link rel="stylesheet" href="assets/css/base-tokens-and-hero.css">
+  <link rel="stylesheet" href="assets/css/product-cards-and-sections.css">
+  <link rel="stylesheet" href="assets/css/order-form-and-success.css">
+  <script type="module" src="assets/js/app-main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#dat-hang">Tới phần đặt đơn</a>
+
+  <header class="hero" data-hero>
+    <div class="wrap hero__inner">
+      <p class="hand hero__kicker">Mỗi lần về quê, Mo xách lên Hà Nội…</p>
+      <h1 class="hero__title">Mo về quê</h1>
+      <p class="hero__lede">Đặc sản xứ Thanh, chỉ những món Mo ăn rồi thấy <em>ngonnn</em> thật sự.</p>
+      <div class="stamp" data-batch-stamp data-state="loading">
+        <span class="stamp__label" data-batch-stamp-label>Đang xem đợt…</span>
+      </div>
+      <p class="hero__status" data-batch-line>&nbsp;</p>
+      <p class="hero__countdown" data-countdown hidden></p>
+      <div class="hero__actions">
+        <a class="btn btn--nem" href="#dat-hang" data-cta-order hidden>Đặt ngay</a>
+        <a class="btn btn--ghost" href="#mon">Xem món</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="mon" class="section wrap" aria-labelledby="mon-title">
+      <h2 id="mon-title" class="section__title">Món Mo mang về</h2>
+      <div class="cards" data-product-cards></div>
+    </section>
+
+    <section id="loi-cua-mo" class="section letter-section" aria-labelledby="letter-title">
+      <div class="wrap">
+        <article class="letter">
+          <h2 id="letter-title" class="section__title">Vì sao có trang này</h2>
+          <p>Mình là Mo, người xứ Thanh đang sống ở Hà Nội. Lần nào về quê, vali cũng nặng trĩu nem chua với bánh lá, vì bạn bè cứ dặn “về nhớ mang cho tao với”.</p>
+          <p>Mình không bán đại trà. Mỗi đợt chỉ mang những món mình đã ăn, thấy ngon thật sự, lấy từ cơ sở nhà làm. Món nào đợt đó không ngon, mình không bán.</p>
+          <p>Mong muốn của mình đơn giản lắm: ai chưa có dịp về Thanh cũng được ăn đúng vị xứ Thanh, ngay giữa Hà Nội.</p>
+          <p class="hand letter__sign">— Mo</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="feedback" class="section" aria-labelledby="feedback-title" hidden>
+      <div class="wrap">
+        <h2 id="feedback-title" class="section__title">Mọi người ăn rồi nói gì</h2>
+      </div>
+      <div class="feedback-track" data-feedback-track></div>
+    </section>
+
+    <section id="dat-hang" class="section wrap" aria-labelledby="order-title">
+      <h2 id="order-title" class="section__title">Đặt đơn</h2>
+
+      <div data-order-open hidden>
+        <form id="order-form" class="order-form" autocomplete="on">
+          <fieldset class="form-block">
+            <legend>1. Chọn món</legend>
+            <div class="order-items" data-order-items></div>
+          </fieldset>
+
+          <fieldset class="form-block">
+            <legend>2. Giao cho ai, ở đâu</legend>
+            <label class="field"><span>Họ tên</span>
+              <input name="name" required maxlength="80" autocomplete="name"></label>
+            <label class="field"><span>Số điện thoại (Zalo)</span>
+              <input name="phone" type="tel" inputmode="tel" required maxlength="15" autocomplete="tel" placeholder="09xx xxx xxx"></label>
+            <label class="field"><span>Địa chỉ giao (nội thành Hà Nội)</span>
+              <textarea name="address" rows="2" required maxlength="200" autocomplete="street-address" placeholder="Số nhà, ngõ, đường, phường"></textarea></label>
+            <label class="field"><span>Khung giờ nhận tiện nhất</span>
+              <select name="timePref">
+                <option>Giờ nào cũng được</option><option>Buổi sáng</option><option>Buổi trưa</option>
+                <option>Buổi chiều</option><option>Buổi tối</option>
+              </select></label>
+            <label class="field"><span>Ghi chú <i>(không bắt buộc)</i></span>
+              <textarea name="note" rows="2" maxlength="300" placeholder="VD: gọi trước khi giao, mua làm quà…"></textarea></label>
+          </fieldset>
+
+          <fieldset class="form-block form-block--refund">
+            <legend>3. Tài khoản nhận hoàn tiền</legend>
+            <p class="form-hint">Chỉ dùng khi đợt này hàng không đạt chuẩn Mo muốn hoặc hết hàng ngon: Mo hoàn 100% vào đây.</p>
+            <label class="field"><span>Ngân hàng</span>
+              <input name="refundBank" list="bank-list" required maxlength="60" autocomplete="off" placeholder="VD: Vietcombank"></label>
+            <datalist id="bank-list">
+              <option value="Vietcombank"></option><option value="VietinBank"></option><option value="BIDV"></option>
+              <option value="Agribank"></option><option value="Techcombank"></option><option value="MB Bank"></option>
+              <option value="ACB"></option><option value="VPBank"></option><option value="TPBank"></option>
+              <option value="Sacombank"></option><option value="VIB"></option><option value="HDBank"></option>
+              <option value="SHB"></option><option value="OCB"></option><option value="MSB"></option>
+              <option value="SeABank"></option><option value="Cake by VPBank"></option><option value="Timo"></option>
+            </datalist>
+            <div class="field-row">
+              <label class="field"><span>Số tài khoản</span>
+                <input name="refundAccount" inputmode="numeric" required pattern="\s*(\d\s*){6,20}" maxlength="30" autocomplete="off" title="Chỉ gồm chữ số"></label>
+              <label class="field"><span>Tên chủ tài khoản</span>
+                <input name="refundAccountName" required maxlength="80" autocapitalize="characters" autocomplete="off" placeholder="NGUYEN VAN A"></label>
+            </div>
+          </fieldset>
+
+          <div class="hp" aria-hidden="true">
+            <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" required>
+            <span>Mình đã đọc <a href="#mon">cách ăn &amp; bảo quản</a>, và biết nem chua là thịt lên men chưa nấu chín.</span>
+          </label>
+
+          <div class="order-summary">
+            <p class="order-summary__total">Tiền hàng <strong data-order-total>0đ</strong><span>· ship miễn phí</span></p>
+            <button type="submit" class="btn btn--nem btn--block" data-order-submit>Chọn món để đặt</button>
+          </div>
+          <p class="form-error" data-order-error role="alert" tabindex="-1"></p>
+        </form>
+      </div>
+
+      <div class="closed-panel" data-order-closed>
+        <p class="hand closed-panel__kicker">Mo đang ở Hà Nội…</p>
+        <h3 class="closed-panel__title">Chưa mở đơn đợt mới</h3>
+        <p class="closed-panel__reopen" data-next-open hidden></p>
+        <p data-next-hint>Mo sẽ báo trong nhóm Zalo mỗi lần chuẩn bị về quê.</p>
+        <div class="contact-buttons">
+          <button type="button" class="btn btn--nem" data-retry hidden>Tải lại trang</button>
+          <a class="btn btn--leaf" data-contact="zalo-group" target="_blank" rel="noopener">Vào nhóm Zalo nhận tin mở đơn</a>
+          <a class="btn btn--ghost" data-contact="messenger" target="_blank" rel="noopener">Nhắn Mo qua Messenger</a>
+          <button type="button" class="btn btn--ghost" data-contact="zalo-qr">Quét QR Zalo của Mo</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="nhan-hang" class="section wrap" aria-labelledby="how-title">
+      <h2 id="how-title" class="section__title">Đặt và nhận thế nào</h2>
+      <ol class="steps">
+        <li><b>Đặt trước hạn chốt</b><span>Chọn món, điền địa chỉ ngay trên trang này.</span></li>
+        <li><b>Chuyển khoản theo QR</b><span>Mã QR có sẵn số tiền và mã đơn, gửi ảnh cho Mo là xong.</span></li>
+        <li><b>Mo giao tận tay</b><span>Mang từ Thanh Hóa lên, giao nội thành Hà Nội, miễn phí ship.</span></li>
+      </ol>
+      <p class="promise"><b>Cam kết của Mo:</b> món nào đợt đó ăn thử không ngon thì không bán. Hết hàng đạt chuẩn, Mo hoàn 100% tiền vào tài khoản bạn để lại.</p>
+    </section>
+
+    <section id="hoi-dap" class="section wrap" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="section__title">Hỏi nhanh</h2>
+      <div class="faq">
+        <details><summary>Nem chua để được bao lâu?</summary>
+          <p>Nem đến tay là vừa chín tới. Để ngăn mát, ăn ngon nhất trong 5–7 ngày; để ngoài trời nóng nem sẽ chua nhanh hơn.</p></details>
+        <details><summary>Bà bầu, trẻ nhỏ ăn nem chua được không?</summary>
+          <p>Nem chua là thịt lên men, chưa qua nấu chín. Bà bầu, trẻ nhỏ và người miễn dịch yếu nên nướng hoặc chiên chín trước khi ăn.</p></details>
+        <details><summary>Mình ở ngoại thành hoặc tỉnh khác thì sao?</summary>
+          <p>Hiện Mo chỉ giao nội thành Hà Nội. Bạn nhắn Mo, nếu tiện đường Mo sẽ cố gắng sắp xếp.</p></details>
+        <details><summary>Khi nào mình được hoàn tiền?</summary>
+          <p>Khi đợt đó hàng không đạt chuẩn Mo muốn, hoặc hết hàng ngon. Mo hoàn 100% vào tài khoản bạn điền lúc đặt.</p></details>
+        <details><summary>Mua nhiều làm quà được không?</summary>
+          <p>Được chứ! Nhắn Mo qua Messenger hoặc Zalo trước để Mo đặt cơ sở chuẩn bị đủ hàng.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p class="site-footer__brand">Mo về quê</p>
+      <p>Đặc sản xứ Thanh, mang lên Hà Nội theo từng đợt.</p>
+      <div class="contact-buttons contact-buttons--footer">
+        <a class="btn btn--ghost btn--small" data-contact="messenger" target="_blank" rel="noopener">Messenger</a>
+        <a class="btn btn--ghost btn--small" data-contact="zalo-group" target="_blank" rel="noopener">Nhóm Zalo</a>
+        <button type="button" class="btn btn--ghost btn--small" data-contact="zalo-qr">QR Zalo</button>
+      </div>
+      <p class="site-footer__made">Trang nhỏ do <a href="https://bonjourney1011.github.io/" target="_blank" rel="noopener">Mo Thuan</a> tự làm.</p>
+    </div>
+  </footer>
+
+  <dialog id="zalo-qr-dialog" class="qr-dialog" aria-label="Mã QR Zalo của Mo">
+    <img alt="Mã QR Zalo của Mo" width="260" height="260">
+    <p>Mở Zalo → Quét mã để kết bạn với Mo</p>
+    <p class="qr-dialog__hint">Đang xem trên điện thoại? Chụp màn hình, rồi trong Zalo bấm biểu tượng quét QR → chọn ảnh vừa chụp.</p>
+    <button type="button" class="btn btn--ghost" data-dialog-close>Đóng</button>
+  </dialog>
+</body>
+</html>

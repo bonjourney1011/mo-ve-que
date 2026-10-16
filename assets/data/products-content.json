@@ -1,0 +1,35 @@
+[
+  {
+    "sku": "nem-chua",
+    "name": "Nem chua",
+    "tagline": "Chua dịu, giòn bì, thơm thính — đúng vị chợ Thanh.",
+    "description": "Thịt nạc tươi trộn bì thái sợi, thính gạo rang, tỏi, ớt, lót lá đinh lăng rồi gói lá chuối cho lên men tự nhiên. Một chục là một bó 10 chiếc nhỏ xinh.",
+    "howToEat": "Bóc lá, ăn cùng lá đinh lăng, lát tỏi, chấm tương ớt. Muốn chín thì nướng than hoặc chiên vàng.",
+    "storage": "Đến tay là nem vừa chín tới. Để ngăn mát, ngon nhất trong 5–7 ngày; để ngoài trời nóng nem chua nhanh hơn.",
+    "caution": "Nem chua là thịt lên men, chưa qua nấu chín: bà bầu, trẻ nhỏ và người miễn dịch yếu nên nướng hoặc chiên chín trước khi ăn.",
+    "image": "",
+    "imageAlt": "Bó nem chua Thanh Hóa gói lá chuối"
+  },
+  {
+    "sku": "banh-rang-bua",
+    "name": "Bánh lá răng bừa",
+    "tagline": "Dài như chiếc răng bừa, dẻo bột gạo, đậm nhân thịt.",
+    "description": "Tương truyền bánh gắn với tích vua Lê Đại Hành về Thọ Xuân cày ruộng tịch điền. Vỏ bột gạo tẻ mịn, nhân thịt ba chỉ, mộc nhĩ, hành phi, gói lá rồi nấu chín.",
+    "howToEat": "Hấp nóng lại 10–15 phút, bóc lá, chấm nước mắm pha chanh ớt, thêm chút tiêu.",
+    "storage": "Để ngăn mát, dùng trong 3 ngày. Luôn hấp nóng lại trước khi ăn.",
+    "caution": "",
+    "image": "",
+    "imageAlt": "Bánh lá răng bừa Thanh Hóa bóc lá"
+  },
+  {
+    "sku": "banh-bot-loc",
+    "name": "Bánh bột lọc",
+    "tagline": "Vỏ trong veo, dai dai, nhân tôm thịt.",
+    "description": "Bột năng nhào nước sôi, gói lá chuối cùng nhân tôm, thịt, mộc nhĩ rồi hấp chín. Món ăn vặt quen thuộc của phố Thanh. Mo đang ăn thử vài nơi để chọn chỗ ngon nhất.",
+    "howToEat": "Hấp nóng lại, bóc lá, chấm nước mắm ớt.",
+    "storage": "Để ngăn mát, dùng trong 2 ngày. Hấp nóng lại trước khi ăn.",
+    "caution": "",
+    "image": "",
+    "imageAlt": "Bánh bột lọc Thanh Hóa trong lá chuối"
+  }
+]
