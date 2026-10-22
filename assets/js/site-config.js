@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   // Facebook username for https://m.me/<username>
   messengerUsername: 'thuanbon.mo',
   // Zalo group invite link, e.g. https://zalo.me/g/abcxyz
-  zaloGroupUrl: '',
+  zaloGroupUrl: 'https://zalo.me/g/lzszu27s8sstm3zjoxmu',
   // Personal Zalo QR image (no phone number shown on the page)
   zaloQrImage: 'assets/images/zalo-qr.png',
   portfolioUrl: 'https://bonjourney1011.github.io/'
