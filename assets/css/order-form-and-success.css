@@ -97,6 +97,9 @@
 .copy-row__label { grid-column: 1; font-size: .82rem; color: var(--ink-faint); }
 .copy-row__value { grid-column: 1; word-break: break-all; }
 .copy-row .btn { grid-column: 2; grid-row: 1 / span 2; }
+.copy-row__note { grid-column: 1 / -1; font-size: .82rem; color: var(--nem-deep); margin-top: 4px; }
+.success__qr-hint { margin: -4px 0 4px; font-size: .85rem; color: var(--ink-soft); text-align: center; }
+.success__manual-title { margin: 10px 0 2px; font: 600 .95rem/1.3 var(--font-body); color: var(--ink); }
 .success__steps { margin: 0 0 16px; padding-left: 20px; }
 .success__steps li { margin-bottom: 6px; }
 .success__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
