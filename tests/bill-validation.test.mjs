@@ -42,3 +42,9 @@ test('order must exist, match the secret token and not be cancelled', () => {
   assert.equal(gs.checkBillOrder(order, TOKEN.replace('3', '4')).ok, false);
   assert.equal(gs.checkBillOrder({ ...order, paymentStatus: 'Huỷ' }, TOKEN).ok, false);
 });
+
+test('status check needs only a valid order code + token', () => {
+  assert.equal(gs.validateBillOrderRef({ orderCode: 'MVQ2310-012', billToken: TOKEN }).ok, true);
+  assert.equal(gs.validateBillOrderRef({ orderCode: 'MVQ2310-012', billToken: 'nope' }).ok, false);
+  assert.equal(gs.validateBillOrderRef(null).ok, false);
+});

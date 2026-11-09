@@ -29,6 +29,7 @@ function doPost(e) {
     var payload = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!payload || typeof payload !== 'object') return { ok: false, error: 'Dữ liệu đơn không hợp lệ.' };
     if (payload.action === 'bill') return handleBillUpload_(payload);
+    if (payload.action === 'billStatus') return handleBillStatus_(payload);
     // One id per filled form: a retry after a timeout gets the first answer back instead of a duplicate.
     var requestId = typeof payload.requestId === 'string' ? payload.requestId.replace(/[^\w-]/g, '').slice(0, 64) : '';
     var cache = CacheService.getScriptCache();

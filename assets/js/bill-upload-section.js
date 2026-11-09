@@ -1,5 +1,5 @@
 import { el } from './dom-and-format-helpers.js';
-import { submitBill } from './order-api-client.js';
+import { submitBill, fetchBillStatus } from './order-api-client.js';
 import { resizeBillImage } from './bill-image-resizer.js';
 import { attachBillSources, isDesktopPointer } from './bill-input-sources.js';
 import { billHandoffUrl, drawHandoffQr } from './phone-bill-handoff.js';
@@ -14,8 +14,31 @@ function doneNote() {
     el('p', { class: 'bill__done-text', text: 'Mo kiểm tra tài khoản rồi chốt đơn với bạn qua Zalo hoặc Messenger nhé.' }));
 }
 
+const POLL_EVERY_MS = 6000;
+const POLL_FOR_MS = 10 * 60 * 1000;
+
+/**
+ * While the QR is open, asks the server every few seconds whether the phone already sent the bill,
+ * so this computer flips to "received" by itself. Only while the tab is visible; stops after 10 minutes.
+ */
+function watchForPhoneBill(order, box, onArrived) {
+  const startedAt = Date.now();
+  let busy = false;
+  const timer = setInterval(async () => {
+    if (!box.isConnected || Date.now() - startedAt > POLL_FOR_MS) { clearInterval(timer); return; }
+    if (busy || document.hidden || !box.open) return;
+    busy = true;
+    const status = await fetchBillStatus(order);
+    busy = false;
+    if (status.ok && status.hasBill) {
+      clearInterval(timer);
+      onArrived();
+    }
+  }, POLL_EVERY_MS);
+}
+
 /** Desktop only: QR that opens this order's upload box on the phone, drawn when first opened. */
-function phoneHandoff(order) {
+function phoneHandoff(order, onPhoneBill) {
   const img = el('img', { class: 'handoff__qr', alt: `Mã QR mở trang gửi ảnh chuyển khoản đơn ${order.orderCode} trên điện thoại` });
   const text = el('p', { class: 'handoff__text',
     text: `Quét mã này bằng camera điện thoại. Trang mở sẵn đơn ${order.orderCode}, bạn chỉ cần chọn ảnh chuyển khoản và bấm Gửi trên điện thoại.` });
@@ -25,6 +48,7 @@ function phoneHandoff(order) {
     if (!box.open || img.getAttribute('src')) return;
     try {
       await drawHandoffQr(img, billHandoffUrl(order));
+      watchForPhoneBill(order, box, onPhoneBill);
     } catch {
       text.textContent = 'Chưa tạo được mã QR. Bạn gửi ảnh qua Zalo hoặc Messenger cho chính mình, rồi dán vào đây bằng Ctrl+V nhé.';
     }
@@ -52,7 +76,13 @@ export function billUploadSection({ orderCode, billToken }) {
   const section = el('div', { class: 'bill' },
     el('h4', { class: 'bill__title', text: 'Chuyển xong? Gửi ảnh chuyển khoản cho Mo' }),
     el('p', { class: 'bill__lede', text: 'Ảnh lưu kín trong Drive của Mo, kèm đúng mã đơn, để Mo khớp tiền nhanh.' }),
-    dropZone, isDesktopPointer() ? phoneHandoff({ orderCode, billToken }) : null, preview, error, button);
+    dropZone, isDesktopPointer() ? phoneHandoff({ orderCode, billToken }, () => markDone()) : null, preview, error, button);
+
+  function markDone() {
+    if (done) return;
+    done = true;
+    section.replaceWith(doneNote());
+  }
 
   async function useFile(file) {
     error.textContent = '';
@@ -87,8 +117,7 @@ export function billUploadSection({ orderCode, billToken }) {
     const result = await submitBill({ orderCode, billToken, billBase64: bill.base64, billMime: bill.mime });
     sending = false;
     if (result.ok) {
-      done = true;
-      section.replaceWith(doneNote());
+      markDone();
       return;
     }
     error.textContent = result.error;

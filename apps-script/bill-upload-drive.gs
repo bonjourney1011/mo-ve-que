@@ -62,3 +62,16 @@ function handleBillUpload_(payload) {
   notifyBillReceived(found.order, bill.url);
   return { ok: true, orderCode: checked.orderCode };
 }
+
+/**
+ * doPost route for { action: 'billStatus', orderCode, billToken }: lets the computer notice
+ * that the bill was sent from the phone. Read-only; answers { ok, hasBill }.
+ */
+function handleBillStatus_(payload) {
+  var ref = validateBillOrderRef(payload);
+  if (!ref.ok) return ref;
+  var found = findOrderByCode(ref.orderCode);
+  var orderCheck = checkBillOrder(found && found.order, ref.billToken);
+  if (!orderCheck.ok) return orderCheck;
+  return { ok: true, hasBill: Boolean(found.order.billUrl) };
+}

@@ -51,3 +51,6 @@ export const submitOrder = (payload) => postJson(payload);
 
 /** Attaches the transfer screenshot to an order: { orderCode, billToken, billBase64, billMime }. */
 export const submitBill = (bill) => postJson({ action: 'bill', ...bill });
+
+/** Has this order's bill arrived (e.g. sent from the phone)? Read-only: { ok, hasBill }. */
+export const fetchBillStatus = ({ orderCode, billToken }) => postJson({ action: 'billStatus', orderCode, billToken });

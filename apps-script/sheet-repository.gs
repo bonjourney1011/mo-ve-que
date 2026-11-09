@@ -131,7 +131,7 @@ function ensureOrderHeaders_() {
   });
 }
 
-/** { rowIndex, order: { orderCode, name, total, billToken, paymentStatus } } or null. */
+/** { rowIndex, order: { orderCode, name, total, billToken, billUrl, paymentStatus } } or null. */
 function findOrderByCode(orderCode) {
   var col = function (header) { return ORDER_HEADERS.indexOf(header); };
   var rows = readRows_(getSheet_(SHEET_NAMES.orders));
@@ -144,6 +144,7 @@ function findOrderByCode(orderCode) {
         name: String(rows[i][col('name')]),
         total: Number(rows[i][col('total')]) || 0,
         billToken: String(rows[i][col('bill_token')] || '').trim(),
+        billUrl: String(rows[i][col('bill_url')] || '').trim(),
         paymentStatus: String(rows[i][col('payment_status')])
       }
     };

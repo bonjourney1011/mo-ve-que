@@ -13,14 +13,23 @@ function billFail(error) {
   return { ok: false, error: error };
 }
 
-/** Returns { ok: true, orderCode, billToken, billBase64, billMime } or { ok: false, error } in Vietnamese. */
-function validateBillPayload(payload) {
-  if (!payload || typeof payload !== 'object') return billFail('Dữ liệu không hợp lệ.');
-  var orderCode = String(payload.orderCode || '').trim();
-  var billToken = String(payload.billToken || '').trim();
+/** Order code + secret token only (bill status polling from the computer). */
+function validateBillOrderRef(payload) {
+  var orderCode = String((payload && payload.orderCode) || '').trim();
+  var billToken = String((payload && payload.billToken) || '').trim();
   if (!ORDER_CODE_PATTERN.test(orderCode) || !BILL_TOKEN_PATTERN.test(billToken)) {
     return billFail('Không tìm thấy đơn này. Bạn gửi ảnh qua Messenger hoặc Zalo cho Mo nhé.');
   }
+  return { ok: true, orderCode: orderCode, billToken: billToken };
+}
+
+/** Returns { ok: true, orderCode, billToken, billBase64, billMime } or { ok: false, error } in Vietnamese. */
+function validateBillPayload(payload) {
+  if (!payload || typeof payload !== 'object') return billFail('Dữ liệu không hợp lệ.');
+  var ref = validateBillOrderRef(payload);
+  if (!ref.ok) return ref;
+  var orderCode = ref.orderCode;
+  var billToken = ref.billToken;
   var billBase64 = typeof payload.billBase64 === 'string' ? payload.billBase64.replace(/^data:[^,]*,/, '') : '';
   if (!billBase64) return billFail('Bạn chọn ảnh chụp màn hình chuyển khoản trước nhé.');
   if (billBase64.length > MAX_BILL_BASE64_CHARS) return billFail('Ảnh quá lớn. Bạn chụp lại màn hình rồi chọn lại nhé.');

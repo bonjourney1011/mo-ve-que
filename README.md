@@ -88,6 +88,8 @@ Sau khi đặt, khách gửi ảnh chuyển khoản ngay dưới mã QR (chọn 
 3. Mở file `bill-upload-drive`, chọn hàm `setupBillFolder` → **Chạy** → cho phép quyền **Google Drive**. Hàm này tạo thư mục bill và tự thêm 4 cột mới vào cuối tab Orders (`bill_url`, `bill_uploaded_at` hiện; `bill_file_id`, `bill_token` ẩn).
 4. **Triển khai → Quản lý các lần triển khai → ✏️ → Phiên bản: Mới → Triển khai** (giữ nguyên URL).
 
+Trên máy tính, khung gửi bill có thêm mã QR **"Ảnh chuyển khoản đang nằm trên điện thoại?"**: quét bằng điện thoại là mở sẵn đúng đơn để gửi ảnh. Trong lúc mã QR mở, máy tính tự hỏi server khoảng 6 giây một lần (tối đa 10 phút) và tự chuyển sang "đã nhận" khi điện thoại gửi xong.
+
 Chưa làm 4 bước này thì trang vẫn chạy bình thường, chỉ không hiện khung gửi bill (khách gửi bill qua Messenger như trước).
 
 Mỗi đơn có một mã bí mật (`bill_token`) chỉ trình duyệt của người đặt nhận được, nên không ai gắn bill vào đơn của người khác được. Tối đa 5 ảnh mỗi đơn.
