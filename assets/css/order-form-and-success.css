@@ -135,3 +135,9 @@
 .bill--done { background: var(--leaf-light); border-color: transparent; }
 .bill__done-title { margin: 0; font-weight: 600; color: var(--leaf-deep); }
 .bill__done-text { margin: 0; font-size: .92rem; color: var(--ink-soft); }
+/* Desktop → phone handoff QR (same as book-mo) */
+.handoff { padding: 12px 14px; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper-raised); }
+.handoff__toggle { cursor: pointer; font-weight: 600; color: var(--leaf-deep); }
+.handoff__text { margin: 10px 0; color: var(--ink-soft); font-size: .92rem; }
+.handoff__qr { display: block; margin: 0 auto; max-width: 100%; height: auto; image-rendering: pixelated; background: #fff; border-radius: 8px; }
+.handoff__qr:not([src]) { display: none; }

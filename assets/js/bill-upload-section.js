@@ -2,6 +2,7 @@ import { el } from './dom-and-format-helpers.js';
 import { submitBill } from './order-api-client.js';
 import { resizeBillImage } from './bill-image-resizer.js';
 import { attachBillSources, isDesktopPointer } from './bill-input-sources.js';
+import { billHandoffUrl, drawHandoffQr } from './phone-bill-handoff.js';
 
 const PHONE_HINT = 'Chọn ảnh chụp màn hình chuyển khoản trong thư viện ảnh. Trang tự thu nhỏ ảnh trước khi gửi.';
 const DESKTOP_HINT = 'Chọn ảnh, kéo thả ảnh vào đây, hoặc dán ảnh bằng Ctrl+V. Trang tự thu nhỏ ảnh trước khi gửi.';
@@ -11,6 +12,24 @@ function doneNote() {
   return el('div', { class: 'bill bill--done', role: 'status' },
     el('p', { class: 'bill__done-title', text: `✓ Mo đã nhận ảnh chuyển khoản lúc ${time}` }),
     el('p', { class: 'bill__done-text', text: 'Mo kiểm tra tài khoản rồi chốt đơn với bạn qua Zalo hoặc Messenger nhé.' }));
+}
+
+/** Desktop only: QR that opens this order's upload box on the phone, drawn when first opened. */
+function phoneHandoff(order) {
+  const img = el('img', { class: 'handoff__qr', alt: `Mã QR mở trang gửi ảnh chuyển khoản đơn ${order.orderCode} trên điện thoại` });
+  const text = el('p', { class: 'handoff__text',
+    text: `Quét mã này bằng camera điện thoại. Trang mở sẵn đơn ${order.orderCode}, bạn chỉ cần chọn ảnh chuyển khoản và bấm Gửi trên điện thoại.` });
+  const box = el('details', { class: 'handoff' },
+    el('summary', { class: 'handoff__toggle', text: 'Ảnh chuyển khoản đang nằm trên điện thoại?' }), text, img);
+  box.addEventListener('toggle', async () => {
+    if (!box.open || img.getAttribute('src')) return;
+    try {
+      await drawHandoffQr(img, billHandoffUrl(order));
+    } catch {
+      text.textContent = 'Chưa tạo được mã QR. Bạn gửi ảnh qua Zalo hoặc Messenger cho chính mình, rồi dán vào đây bằng Ctrl+V nhé.';
+    }
+  });
+  return box;
 }
 
 /**
@@ -33,7 +52,7 @@ export function billUploadSection({ orderCode, billToken }) {
   const section = el('div', { class: 'bill' },
     el('h4', { class: 'bill__title', text: 'Chuyển xong? Gửi ảnh chuyển khoản cho Mo' }),
     el('p', { class: 'bill__lede', text: 'Ảnh lưu kín trong Drive của Mo, kèm đúng mã đơn, để Mo khớp tiền nhanh.' }),
-    dropZone, preview, error, button);
+    dropZone, isDesktopPointer() ? phoneHandoff({ orderCode, billToken }) : null, preview, error, button);
 
   async function useFile(file) {
     error.textContent = '';

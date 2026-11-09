@@ -1,11 +1,13 @@
 import { SITE_CONFIG, messengerUrl } from './site-config.js';
-import { loadJson } from './dom-and-format-helpers.js';
+import { el, loadJson } from './dom-and-format-helpers.js';
 import { fetchPublicConfig } from './order-api-client.js';
 import { indexLiveProducts, renderProductCards } from './product-cards-renderer.js';
 import { renderBatchStatus, nextOpenText } from './batch-status-banner.js';
 import { initOrderForm } from './order-form-controller.js';
 import { renderOrderSuccess } from './order-success-view.js';
 import { renderFeedbackGallery } from './feedback-gallery.js';
+import { billUploadSection } from './bill-upload-section.js';
+import { takeBillHandoff } from './phone-bill-handoff.js';
 
 // ?src=story / post / zalo in the shared link tells which channel brought the order.
 const source = (new URLSearchParams(location.search).get('src') || 'direct').slice(0, 30);
@@ -36,6 +38,19 @@ function showOrderPanel(isOpen) {
   document.querySelectorAll('[data-cta-order]').forEach((cta) => { cta.hidden = !isOpen; });
 }
 
+/** Opened from the computer's "bill is on your phone" QR: show only this order's upload box. */
+function showBillOnlyView(order) {
+  showOrderPanel(true);
+  document.querySelector('[data-order-open]').replaceChildren(el('div', { class: 'success' },
+    el('p', { class: 'success__eyebrow', text: 'Đơn của bạn' }),
+    el('h3', { class: 'success__code', text: order.orderCode }),
+    billUploadSection(order)));
+  // Jump straight to the box, and again once images above it have loaded and pushed it down.
+  const jump = () => document.querySelector('[data-order-open]').scrollIntoView({ behavior: 'instant', block: 'start' });
+  requestAnimationFrame(jump);
+  if (document.readyState !== 'complete') window.addEventListener('load', jump, { once: true });
+}
+
 async function loadContents() {
   try {
     const contents = await loadJson('assets/data/products-content.json');
@@ -47,6 +62,8 @@ async function loadContents() {
 }
 
 async function main() {
+  // Read before anything else: it also clears the order code + token from the address bar.
+  const billHandoff = takeBillHandoff();
   wireContacts();
   const [contents, { config: publicConfig, failed }] = await Promise.all([loadContents(), fetchPublicConfig()]);
   const liveBySku = indexLiveProducts(publicConfig);
@@ -67,7 +84,8 @@ async function main() {
 
   renderBatchStatus(document.querySelector('[data-hero]'), { publicConfig, failed, canOrder });
 
-  if (canOrder) {
+  if (billHandoff) showBillOnlyView(billHandoff);
+  else if (canOrder) {
     initOrderForm({
       form: document.getElementById('order-form'),
       products: orderable,
