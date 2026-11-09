@@ -1,5 +1,6 @@
 import { el, formatVnd, copyText } from './dom-and-format-helpers.js';
 import { SITE_CONFIG, messengerUrl } from './site-config.js';
+import { billUploadSection } from './bill-upload-section.js';
 
 // VietQR bank BIN → name buyers see in their banking app (for manual transfers).
 const BANK_NAMES = {
@@ -48,27 +49,31 @@ function paymentBlock(result) {
     payRow('Nội dung chuyển khoản', payment.addInfo, payment.addInfo, 'Giữ nguyên mã đơn này để Mo khớp đơn nhanh.'));
 }
 
-function contactButtons() {
+function contactButtons(canUploadBill) {
   const links = [];
   const messenger = messengerUrl();
-  if (messenger) links.push(el('a', { class: 'btn btn--leaf', href: messenger, target: '_blank', rel: 'noopener', text: 'Gửi ảnh CK qua Messenger' }));
+  const messengerText = canUploadBill ? 'Nhắn Mo qua Messenger' : 'Gửi ảnh CK qua Messenger';
+  if (messenger) links.push(el('a', { class: 'btn btn--leaf', href: messenger, target: '_blank', rel: 'noopener', text: messengerText }));
   if (SITE_CONFIG.zaloGroupUrl) links.push(el('a', { class: 'btn btn--ghost', href: SITE_CONFIG.zaloGroupUrl, target: '_blank', rel: 'noopener', text: 'Nhắn Mo trong nhóm Zalo' }));
   return links.length ? el('div', { class: 'success__actions' }, links) : null;
 }
 
 /** Replaces the form with the confirmation + transfer QR. */
 export function renderOrderSuccess(container, result) {
+  // Older Apps Script deployments send no billToken: buyers then send the bill over Messenger.
+  const canUploadBill = Boolean(result.payment && result.billToken);
   const view = el('div', { class: 'success', tabindex: '-1' },
     el('p', { class: 'success__eyebrow', text: 'Mo nhận đơn rồi nha!' }),
     el('h3', { class: 'success__code', text: result.orderCode }),
     el('p', { class: 'success__items', text: result.itemsText }),
     el('p', { class: 'success__total' }, 'Tổng cần chuyển: ', el('strong', { text: formatVnd(result.total) })),
     paymentBlock(result),
+    canUploadBill ? billUploadSection({ orderCode: result.orderCode, billToken: result.billToken }) : null,
     el('ol', { class: 'success__steps' },
       el('li', { text: 'Chuyển khoản đúng số tiền, giữ nguyên nội dung là mã đơn.' }),
-      el('li', { text: 'Gửi ảnh chuyển khoản cho Mo để chốt đơn.' }),
+      el('li', { text: canUploadBill ? 'Gửi ảnh chuyển khoản ngay ở khung trên để Mo chốt đơn.' : 'Gửi ảnh chuyển khoản cho Mo để chốt đơn.' }),
       el('li', { text: result.deliveryDate ? `Mo giao tận nơi, miễn phí trong nội thành Hà Nội vào ${result.deliveryDate}.` : 'Mo giao tận nơi, miễn phí trong nội thành Hà Nội.' })),
-    contactButtons(),
+    contactButtons(canUploadBill),
     el('p', { class: 'success__refund', text: 'Nếu hàng đợt này không đạt chuẩn Mo muốn, Mo hoàn 100% vào tài khoản bạn đã để lại.' }));
   container.replaceChildren(view);
   view.focus();

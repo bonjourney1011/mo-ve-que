@@ -37,12 +37,17 @@ export async function fetchPublicConfig() {
  * POST as text/plain (fetch's default for a string body) so the browser sends a
  * "simple" request without a CORS preflight, which Apps Script cannot answer.
  */
-export async function submitOrder(payload) {
+async function postJson(payload) {
   try {
     const data = await callApi({ method: 'POST', body: JSON.stringify(payload) });
     return data && typeof data.ok === 'boolean' ? data : { ok: false, error: NETWORK_ERROR };
   } catch (error) {
-    console.warn('Gửi đơn lỗi', error);
+    console.warn('Gửi lên server lỗi', error);
     return { ok: false, error: NETWORK_ERROR };
   }
 }
+
+export const submitOrder = (payload) => postJson(payload);
+
+/** Attaches the transfer screenshot to an order: { orderCode, billToken, billBase64, billMime }. */
+export const submitBill = (bill) => postJson({ action: 'bill', ...bill });

@@ -28,6 +28,7 @@ function doPost(e) {
   return respondJson_(function () {
     var payload = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!payload || typeof payload !== 'object') return { ok: false, error: 'Dữ liệu đơn không hợp lệ.' };
+    if (payload.action === 'bill') return handleBillUpload_(payload);
     // One id per filled form: a retry after a timeout gets the first answer back instead of a duplicate.
     var requestId = typeof payload.requestId === 'string' ? payload.requestId.replace(/[^\w-]/g, '').slice(0, 64) : '';
     var cache = CacheService.getScriptCache();
@@ -45,7 +46,13 @@ function doPost(e) {
       var ctx = loadOrderContext_(new Date());
       var checked = validateOrder(payload, ctx);
       if (!checked.ok) return checked;
-      var meta = { now: ctx.now, orderCode: buildOrderCode(ctx.now, nextOrderSequence()), batchLabel: ctx.batchLabel };
+      var meta = {
+        now: ctx.now,
+        orderCode: buildOrderCode(ctx.now, nextOrderSequence()),
+        batchLabel: ctx.batchLabel,
+        // Secret only this buyer's page receives; required to attach a bill to the order.
+        billToken: Utilities.getUuid()
+      };
       appendOrder(checked.order, meta);
       SpreadsheetApp.flush();
 
@@ -55,7 +62,8 @@ function doPost(e) {
         total: checked.order.total,
         itemsText: formatItemsText(checked.order.items),
         deliveryDate: labelText(ctx.config.delivery_date),
-        payment: buildPaymentInfo(ctx.config, meta.orderCode, checked.order.total)
+        payment: buildPaymentInfo(ctx.config, meta.orderCode, checked.order.total),
+        billToken: meta.billToken
       };
       saved = { order: checked.order, meta: meta };
       cache.put('orders_recent', String(recentCount + 1), GLOBAL_WINDOW_SECONDS);

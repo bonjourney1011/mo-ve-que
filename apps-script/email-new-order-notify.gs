@@ -32,6 +32,27 @@ function buildOrderNotifyText(order, meta) {
   ].filter(function (line, index, lines) { return line || lines[index - 1]; }).join('\n');
 }
 
+/** "Bill received" email with the private Drive link. Never throws, like notifyNewOrder. */
+function notifyBillReceived(order, billUrl) {
+  try {
+    var to = PropertiesService.getScriptProperties().getProperty('NOTIFY_EMAIL') || Session.getEffectiveUser().getEmail();
+    if (!to) return;
+    MailApp.sendEmail({
+      to: to,
+      subject: '💸 Bill CK đơn ' + order.orderCode + ' · ' + formatVnd(order.total) + 'đ · ' + order.name,
+      body: [
+        order.name + ' vừa gửi ảnh chuyển khoản cho đơn ' + order.orderCode + '.',
+        'Số tiền cần nhận: ' + formatVnd(order.total) + 'đ',
+        'Ảnh bill: ' + billUrl,
+        '',
+        'Kiểm tra app ngân hàng rồi đổi payment_status sang "Đã CK" ở tab Orders.'
+      ].join('\n')
+    });
+  } catch (err) {
+    console.error('Bill email failed', err);
+  }
+}
+
 /** Run once from the editor: grants the Gmail permission and checks the email arrives. */
 function testOrderEmail() {
   notifyNewOrder(

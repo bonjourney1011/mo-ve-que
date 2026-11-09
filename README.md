@@ -22,13 +22,15 @@ tests/                     test logic đơn hàng (npm test)
 
 1. Vào [sheets.new](https://sheets.new), đặt tên ví dụ `Mo về quê – Đơn hàng`.
 2. Trong Sheet, mở menu **Tiện ích mở rộng → Apps Script**.
-3. Tạo 7 file script (nút **+** cạnh "Tệp" → **Tập lệnh**), đặt tên và dán nội dung tương ứng từ thư mục `apps-script/`. Không cần gõ đuôi `.gs`.
+3. Tạo 9 file script (nút **+** cạnh "Tệp" → **Tập lệnh**), đặt tên và dán nội dung tương ứng từ thư mục `apps-script/`. Không cần gõ đuôi `.gs`.
    - `main-web-app-handlers`
    - `owner-menu-open-close`
    - `order-formatting-helpers`
    - `order-validation-and-pricing`
    - `sheet-repository`
    - `email-new-order-notify`
+   - `bill-validation`
+   - `bill-upload-drive`
    - `setup-sheets-one-time`
 
    Tạo xong thì xoá file `Code.gs` mặc định, rồi bấm 💾 **Lưu**.
@@ -76,6 +78,20 @@ Muốn email về địa chỉ khác: *Cài đặt dự án → Thuộc tính t�
 
 **Nếu bạn đã deploy trước khi có file này:** code đã đổi, nên phải cập nhật bản deploy, nếu không đơn thật sẽ không có email. Vào **Triển khai → Quản lý các lần triển khai → ✏️ → Phiên bản: Mới → Triển khai**. URL vẫn giữ nguyên.
 
+## 3b. Nhận ảnh chuyển khoản (bill) ngay trên trang
+
+Sau khi đặt, khách gửi ảnh chuyển khoản ngay dưới mã QR (chọn ảnh, kéo thả hoặc Ctrl+V). Ảnh vào thư mục Drive riêng tư **"Mo về quê – Bills"**, link ghi vào cột `bill_url` của đúng đơn, anh nhận email báo bill.
+
+**Bật lần đầu (khoảng 5 phút):**
+1. Trong Apps Script, tạo 2 file mới `bill-validation` và `bill-upload-drive`, dán nội dung từ `apps-script/`.
+2. Dán lại nội dung mới cho 4 file đã sửa: `main-web-app-handlers`, `sheet-repository`, `email-new-order-notify`, `setup-sheets-one-time`. Bấm **Lưu**.
+3. Mở file `bill-upload-drive`, chọn hàm `setupBillFolder` → **Chạy** → cho phép quyền **Google Drive**. Hàm này tạo thư mục bill và tự thêm 4 cột mới vào cuối tab Orders (`bill_url`, `bill_uploaded_at` hiện; `bill_file_id`, `bill_token` ẩn).
+4. **Triển khai → Quản lý các lần triển khai → ✏️ → Phiên bản: Mới → Triển khai** (giữ nguyên URL).
+
+Chưa làm 4 bước này thì trang vẫn chạy bình thường, chỉ không hiện khung gửi bill (khách gửi bill qua Messenger như trước).
+
+Mỗi đơn có một mã bí mật (`bill_token`) chỉ trình duyệt của người đặt nhận được, nên không ai gắn bill vào đơn của người khác được. Tối đa 5 ảnh mỗi đơn.
+
 ## 4. Điền link liên hệ trên trang
 
 Mở `assets/js/site-config.js` và điền:
@@ -120,6 +136,7 @@ Mỗi lần sửa file trên trang (`site-config.js`, ảnh, feedback), push l�
 | Báo ngày mở lại | Config: `next_open_date` nhập ngày (VD `15/12/2026`). Lúc chưa mở đơn, trang hiện "Dự kiến mở đơn lại ngày 15/12 · còn 12 ngày". Đúng ngày hiện "Hôm nay Mo mở đơn lại"; qua ngày mà chưa mở thì hiện "Mo sắp mở đơn lại", không để ngày cũ. Để trống = không hiện |
 | Đóng sớm hơn hạn | Trên máy tính: menu **Mo về quê → 🔴 Đóng đơn ngay** (trang đổi ngay). Trên app Sheets điện thoại: bỏ tích `ordering_open` (trang đổi sau khoảng 30 giây; đơn gửi sau lúc bỏ tích bị chặn ngay) |
 | Theo dõi đơn | Orders: cập nhật `payment_status` (Chờ CK / Đã CK / Đã hoàn / Huỷ) và `delivery_status` |
+| Đối chiếu bill | Khách gửi ảnh chuyển khoản thì cột `bill_url` có link ảnh (Drive riêng tư) và anh nhận email "💸 Bill CK đơn …". Kiểm tra app ngân hàng rồi đổi `payment_status` sang **Đã CK** |
 
 - Đơn **Huỷ** không bị tính vào tồn kho. Gặp đơn ảo hoặc spam, chuyển sang **Huỷ** để trả lại số lượng cho đợt.
 - Mỗi đợt dùng `batch_label` mới để tồn kho và giới hạn 3 đơn/SĐT đếm lại từ đầu.

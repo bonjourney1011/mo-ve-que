@@ -4,8 +4,11 @@ var PRODUCT_HEADERS = ['sku', 'name', 'price', 'unit', 'available', 'stock_limit
 var ORDER_HEADERS = [
   'created_at', 'order_code', 'batch_label', 'name', 'phone', 'address', 'time_pref',
   'items_text', 'items_json', 'total', 'refund_bank', 'refund_account', 'refund_account_name',
-  'note', 'source', 'payment_status', 'delivery_status'
+  'note', 'source', 'payment_status', 'delivery_status',
+  // Added for transfer screenshots; ensureOrderHeaders_() appends them to older sheets.
+  'bill_url', 'bill_uploaded_at', 'bill_file_id', 'bill_token'
 ];
+var HIDDEN_ORDER_HEADERS = ['items_json', 'bill_file_id', 'bill_token'];
 var PAYMENT_STATUSES = ['Chờ CK', 'Đã CK', 'Đã hoàn', 'Huỷ'];
 var DELIVERY_STATUSES = ['Chưa giao', 'Đã giao'];
 var DEFAULT_MAX_PER_ORDER = 10;
@@ -104,11 +107,56 @@ function appendOrder(order, meta) {
     note: order.note,
     source: order.source,
     payment_status: PAYMENT_STATUSES[0],
-    delivery_status: DELIVERY_STATUSES[0]
+    delivery_status: DELIVERY_STATUSES[0],
+    bill_token: meta.billToken
   };
   var row = ORDER_HEADERS.map(function (header) {
     var value = values[header];
     return FORCED_TEXT_HEADERS.indexOf(header) !== -1 ? value : sanitizeCell(value);
   });
+  ensureOrderHeaders_();
   getSheet_(SHEET_NAMES.orders).appendRow(row);
+}
+
+/** Adds any header missing at the end of row 1 (sheets created before the bill columns existed). */
+function ensureOrderHeaders_() {
+  var sheet = getSheet_(SHEET_NAMES.orders);
+  var current = sheet.getRange(1, 1, 1, ORDER_HEADERS.length).getValues()[0];
+  ORDER_HEADERS.forEach(function (header, index) {
+    if (String(current[index]).trim() === header) return;
+    if (String(current[index]).trim() !== '') throw new Error('Cột ' + (index + 1) + ' của tab Orders phải là "' + header + '".');
+    sheet.getRange(1, index + 1).setValue(header).setFontWeight('bold').setBackground('#f3ead8');
+    if (HIDDEN_ORDER_HEADERS.indexOf(header) !== -1) sheet.hideColumns(index + 1);
+    if (header === 'bill_uploaded_at') sheet.getRange(2, index + 1, sheet.getMaxRows() - 1, 1).setNumberFormat('dd/MM/yyyy HH:mm');
+  });
+}
+
+/** { rowIndex, order: { orderCode, name, total, billToken, paymentStatus } } or null. */
+function findOrderByCode(orderCode) {
+  var col = function (header) { return ORDER_HEADERS.indexOf(header); };
+  var rows = readRows_(getSheet_(SHEET_NAMES.orders));
+  for (var i = rows.length - 1; i >= 0; i--) {
+    if (String(rows[i][col('order_code')]).trim() !== orderCode) continue;
+    return {
+      rowIndex: i + 2,
+      order: {
+        orderCode: orderCode,
+        name: String(rows[i][col('name')]),
+        total: Number(rows[i][col('total')]) || 0,
+        billToken: String(rows[i][col('bill_token')] || '').trim(),
+        paymentStatus: String(rows[i][col('payment_status')])
+      }
+    };
+  }
+  return null;
+}
+
+/** Writes { header: value } into one order row; only known headers, values from our own code. */
+function setOrderCells(rowIndex, values) {
+  ensureOrderHeaders_();
+  var sheet = getSheet_(SHEET_NAMES.orders);
+  Object.keys(values).forEach(function (header) {
+    var index = ORDER_HEADERS.indexOf(header);
+    if (index !== -1) sheet.getRange(rowIndex, index + 1).setValue(sanitizeCell(values[header]));
+  });
 }

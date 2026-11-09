@@ -79,5 +79,6 @@ function createOrdersSheet_(spreadsheet) {
     var rule = SpreadsheetApp.newDataValidation().requireValueInList(pair[1], true).setAllowInvalid(false).build();
     sheet.getRange(2, col(pair[0]), maxRows, 1).setDataValidation(rule);
   });
-  sheet.hideColumns(col('items_json'));
+  sheet.getRange(2, col('bill_uploaded_at'), maxRows, 1).setNumberFormat('dd/MM/yyyy HH:mm');
+  HIDDEN_ORDER_HEADERS.forEach(function (header) { sheet.hideColumns(col(header)); });
 }

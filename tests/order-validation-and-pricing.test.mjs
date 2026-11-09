@@ -9,7 +9,7 @@ process.env.TZ = 'Asia/Ho_Chi_Minh';
 
 // Apps Script shares one global scope across .gs files; load them in the same context.
 const gs = vm.createContext({});
-for (const file of ['order-formatting-helpers.gs', 'order-validation-and-pricing.gs']) {
+for (const file of ['order-formatting-helpers.gs', 'order-validation-and-pricing.gs', 'bill-validation.gs']) {
   vm.runInContext(readFileSync(new URL(`../apps-script/${file}`, import.meta.url), 'utf8'), gs);
 }
 
