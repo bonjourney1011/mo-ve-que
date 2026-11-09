@@ -1,7 +1,7 @@
 // The only file you need to edit on the page side. Leave a value empty to hide that button.
 export const SITE_CONFIG = {
   // Apps Script web app URL ending in /exec (see README, step 2). Empty = ordering hidden.
-  apiUrl: 'https://script.google.com/macros/s/AKfycbwEjoYqzdm-Btw76LpgmhIy0w_pE4TtRnv9L5h0NlZ6ngLOfITh4QRjPxnZcQItQSIa/exec',
+  apiUrl: 'https://script.google.com/macros/s/AKfycbxRXsUnajWxm-jHZfljmPrjIkgUScOG4gdH4mo4yOjoYzhUwRAqc-vHUzz8bnUXLhk/exec',
   // Facebook username for https://m.me/<username>
   messengerUsername: 'thuanbon.mo',
   // Zalo group invite link, e.g. https://zalo.me/g/abcxyz
